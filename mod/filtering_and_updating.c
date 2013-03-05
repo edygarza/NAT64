@@ -192,6 +192,7 @@ void transport_address_ipv4(struct in_addr addr, __be16 pi, struct ipv4_tuple_ad
 { 
     ta->address = addr;
     ta->l4_id = be16_to_cpu(pi);
+    //~ ta->l4_id = (pi);
 }
 
 /** Join a IPv6 address and a port (or ICMP ID) to create a Transport Address.
@@ -204,6 +205,7 @@ void transport_address_ipv6(struct in6_addr addr, __be16 pi, struct ipv6_tuple_a
 { 
     ta->address = addr;
     ta->l4_id = be16_to_cpu(pi);
+    //~ ta->l4_id = (pi);
 }
 
 /** Retrieve a new port for the specified IPv4 pool address.
@@ -887,7 +889,8 @@ int ipv4_icmp4(struct sk_buff* skb, struct nf_conntrack_tuple *tuple)
 
     // If such an entry does not exist,
     if ( bib_entry_p == NULL )
-    {   
+    {
+pr_debug(">>> Looking 4 bib: %pI4, le:%d be:%d \n", &tuple->ipv4_dst_addr, be16_to_cpu(tuple->icmp_id), tuple->icmp_id );
         // TODO: Does the policy allow us to send this packet?
         icmp_send(skb, DESTINATION_UNREACHABLE, HOST_UNREACHABLE, 0);
         log_warning("There is no BIB entry for the incoming IPv4 ICMP packet.");

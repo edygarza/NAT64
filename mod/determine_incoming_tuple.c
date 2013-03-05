@@ -43,9 +43,11 @@ static void *ipv4_extract_l4_hdr(struct iphdr *hdr_ipv4)
 static bool ipv4_udp(struct iphdr *hdr_ipv4, struct udphdr *hdr_udp, struct nf_conntrack_tuple *in_tuple)
 {
 	in_tuple->ipv4_src_addr.s_addr = hdr_ipv4->saddr;
-	in_tuple->src_port = be16_to_cpu(hdr_udp->source);
+	//~ in_tuple->src_port = be16_to_cpu(hdr_udp->source);
+	in_tuple->src_port = (hdr_udp->source);
 	in_tuple->ipv4_dst_addr.s_addr = hdr_ipv4->daddr;
-	in_tuple->dst_port = be16_to_cpu(hdr_udp->dest);
+	//~ in_tuple->dst_port = be16_to_cpu(hdr_udp->dest);
+	in_tuple->dst_port = (hdr_udp->dest);
 	in_tuple->L3_PROTO = PF_INET;
 	in_tuple->L4_PROTO = IPPROTO_UDP;
 	return true;
@@ -54,9 +56,11 @@ static bool ipv4_udp(struct iphdr *hdr_ipv4, struct udphdr *hdr_udp, struct nf_c
 static bool ipv4_tcp(struct iphdr *hdr_ipv4, struct tcphdr *hdr_tcp, struct nf_conntrack_tuple *in_tuple)
 {
 	in_tuple->ipv4_src_addr.s_addr = hdr_ipv4->saddr;
-	in_tuple->src_port = be16_to_cpu(hdr_tcp->source);
+	//~ in_tuple->src_port = be16_to_cpu(hdr_tcp->source);
+	in_tuple->src_port = (hdr_tcp->source);
 	in_tuple->ipv4_dst_addr.s_addr = hdr_ipv4->daddr;
-	in_tuple->dst_port = be16_to_cpu(hdr_tcp->dest);
+	//~ in_tuple->dst_port = be16_to_cpu(hdr_tcp->dest);
+	in_tuple->dst_port = (hdr_tcp->dest);
 	in_tuple->L3_PROTO = PF_INET;
 	in_tuple->L4_PROTO = IPPROTO_TCP;
 	return true;
@@ -65,7 +69,8 @@ static bool ipv4_tcp(struct iphdr *hdr_ipv4, struct tcphdr *hdr_tcp, struct nf_c
 static bool ipv4_icmp_info(struct iphdr *hdr_ipv4, struct icmphdr *hdr_icmp, struct nf_conntrack_tuple *in_tuple)
 {
 	in_tuple->ipv4_src_addr.s_addr = hdr_ipv4->saddr;
-	in_tuple->src_port = be16_to_cpu(hdr_icmp->un.echo.id);
+	//~ in_tuple->src_port = be16_to_cpu(hdr_icmp->un.echo.id);
+	in_tuple->src_port = (hdr_icmp->un.echo.id);
 	in_tuple->ipv4_dst_addr.s_addr = hdr_ipv4->daddr;
 	in_tuple->dst_port = in_tuple->src_port;
 	in_tuple->L3_PROTO = PF_INET;
